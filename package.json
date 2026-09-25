@@ -1,0 +1,10 @@
+{
+    "name": "gefina",
+    "version": "0.0.0",
+    "description": "Sistema DE GESTÃO de  contas a receber. ",
+    "author": "Ismael",
+    "type": "module",
+    "scripts": {
+        "dev": "node --watch ./server.ts"
+    }
+}
