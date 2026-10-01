@@ -63,34 +63,24 @@
             
         }
 
+        function addCell(row, value) {
+            const cell = document.createElement('td');
+            cell.textContent = value;
+            row.appendChild(cell);
+        }
+
         for (let i = 0; i < invoices.length;i++) {
             const invoice = invoices[i];
             const  row = document.createElement('tr');
+
+            addCell(row, invoice.customer.name);
+            addCell(row, invoice.customer.email);
+            addCell(row, invoice.amount);
+            addCell(row, invoice.issueDate);
+            addCell(row, invoice.dueDate);
+            addCell(row, statuslabel(invoice.status));
             
-            const client = document.createElement('td');
-            client.textContent = invoice.customer.name;
-            row.appendChild(client);
-
-            const email = document.createElement('td');
-            email.textContent = invoice.customer.email;
-            row.appendChild(email);
-
-            const amount = document.createElement('td');
-            amount.textContent = invoice.amount;
-            row.appendChild(amount);
-
-            const issueDate = document.createElement('td');
-            issueDate.textContent = invoice.issueDate;
-            row.appendChild( issueDate);
-
-            const dueDate = document.createElement('td');
-            dueDate.textContent = invoice.dueDate;
-            row.appendChild(dueDate);
-
-            const status = document.createElement('td');
-            status.textContent = statuslabel(invoice.status);
-            row.appendChild(status);
-
+       
             tableBody.appendChild(row);
         }
 
