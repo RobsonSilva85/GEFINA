@@ -12,8 +12,6 @@
     <h1>Faturas</h1>
 
     <div></div>
-    hello word
-
 
     <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js">
 
@@ -55,7 +53,7 @@
             },
         ];
 
-        const container = document.querySelector('div');
+        const root = document.querySelector('div');
 
         function statusLabel(status) {
             return status === 'paid' ? 'Pago' : 'Pendente';
@@ -99,7 +97,11 @@
             );
         }
 
-        ReactDOM.createRoot(container).render(<InvoiceTable invoices={invoices} />);
+        function App() {
+            return <InvoiceTable invoices={invoices}/>
+        }
+
+        ReactDOM.createRoot(root).render(<App/>);
     </script>
 </body>
 
