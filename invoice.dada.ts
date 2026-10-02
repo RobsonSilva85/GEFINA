@@ -1,4 +1,3 @@
-
 type InvoiceStatus = 'pending' | 'paid';
 
 interface Customer {
