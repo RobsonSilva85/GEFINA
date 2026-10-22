@@ -38,27 +38,31 @@ export default function DashboardPage() {
 
     return <div>
         <h1>Painel Inicial</h1>
-        <div>
+        <div className="sumary-cards">
             <SummaryCard label="Total recebido: " value={formatCurrency(dashboard?.totals.paid)} />
             <SummaryCard label="Total pendente: " value={formatCurrency(dashboard.totals.pending)} />
             <SummaryCard label="Faturas: " value={String(dashboard.totals.invoiceCount)} />
             <SummaryCard label="Clientes: " value={String(dashboard.totals.customerCount)} />
         </div>
 
-        <InvoiceSummaryTable
-            title="Faturas Recentes"
-            datelabel="Emissão"
-            invoices={dashboard.recentInvoices }
-            date={(invoice) => invoice.issueDate }
+        <div className="sumary-tables">
 
-        />
-        <InvoiceSummaryTable
-            title="Faturas Atrasadas"
-            datelabel="Vencimento"
-            invoices={ dashboard.overdueInvoices}
-            date={ ( invoice) => invoice.dueDate}
+            <InvoiceSummaryTable
+                title="Faturas Recentes"
+                datelabel="Emissão"
+                invoices={dashboard.recentInvoices}
+                date={(invoice) => invoice.issueDate}
 
-        />
+            />
+            <InvoiceSummaryTable
+                title="Faturas Atrasadas"
+                datelabel="Vencimento"
+                invoices={dashboard.overdueInvoices}
+                date={(invoice) => invoice.dueDate}
+
+            />
+        </div>
+
 
     </div>;
 }
