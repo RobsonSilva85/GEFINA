@@ -48,7 +48,6 @@ body {
 
 h1 {
     font-size: var(--text-xl);
-    color: var(colo);
     font-weight: 600;
     margin-bottom: var(--space-6);
 }
