@@ -14,6 +14,12 @@ GET {{host}}/api/invoices
 ### Buscar fatura pelo identificador
 GET {{host}}/api/invoices/1
 
+### Buscar fatura por identificador inválido
+GET {{host}}/api/invoices/abc
+
+### Buscar fatura por indentificador inexistente
+GET {{host}}/api/invoices/999999
+
 ### Criar fatura
 POST {{host}}/api/invoices
 Content-Type: application/json
