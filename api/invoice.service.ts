@@ -31,7 +31,15 @@ interface InvoiceRow {
   customer_email: string;
 }
 
-function toInvoice(row: InvoiceRow): Invoice{
+interface InvoiceInput {
+  customerId: number;
+  amount: number;
+  status: InvoiceStatus;
+  issueDate: string;
+  dueDate: string;
+}
+
+function toInvoice(row: InvoiceRow): Invoice {
   return {
     id: row.id,
     amount: row.amount,
@@ -87,7 +95,7 @@ export async function findInvoicesById(id: number): Promise<Invoice | undefined>
   const connect = await pool.query<InvoiceRow>(`${baseQuery} WHERE invoices.id = $1;`, [id]);
 
   if (!connect.rows.length) return undefined;
-  
+
   return toInvoice(connect.rows[0]);
 }
 
@@ -98,7 +106,7 @@ export async function findRecentInvoices(): Promise<Invoice[]> {
     LIMIT 5;
   `);
   return toInvoices(connect.rows);
-  
+
 }
 
 export async function findOverdueInvoices(): Promise<Invoice[]> {
@@ -109,5 +117,57 @@ export async function findOverdueInvoices(): Promise<Invoice[]> {
     LIMIT 5;
   `);
   return toInvoices(connect.rows);
-  
+
+}
+
+export async function insertInvoice(datas: InvoiceInput): Promise<Invoice | undefined> {
+  const connect = await pool.query<{ id: number }>(
+    `
+    INSERT INTO invoices(customer_id, amount, status, issue_date, due_date)
+    VALUES($1, $2, $3, $4, $5)
+    RETURNING id;
+   `,
+    [datas.customerId, datas.amount, datas.status, datas.issueDate, datas.dueDate]
+  );
+
+  return await findInvoicesById(connect.rows[0].id);
+
+}
+
+export async function modifyInvoice(
+  id: number,
+  datas: InvoiceInput
+): Promise<Invoice | undefined> {
+  const connect = await pool.query<{id: number}>(
+    `
+    UPDATE invoices
+    SET
+      customer_id = $1,
+      amount = $2,
+      status = $3,
+      issue_date = $4,
+      due_date = $5
+    WHERE id = $6
+    RETURNING id;
+    `,
+    [datas.customerId, datas.amount, datas.status, datas.issueDate, datas.dueDate, id]
+  );
+
+  if (!connect.rows.length) return undefined;
+
+  return await findInvoicesById(id);
+} 
+
+export async function removeInvoice(id: number): Promise<boolean> {
+  const connect = await pool.query<{id: number}>(
+
+    `
+    DELETE FROM invoices
+    WHERE id = $1
+    RETURNING id;
+    `,
+    [id]
+    
+  );
+  return connect.rows.length > 0;
 }

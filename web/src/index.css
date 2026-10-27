@@ -48,7 +48,6 @@ body {
 
 h1 {
     font-size: var(--text-xl);
-    color: var(colo);
     font-weight: 600;
     margin-bottom: var(--space-6);
 }
@@ -62,7 +61,7 @@ h2 {
 th {
     font-size: var(--text-sm);
     font-weight: 500;
-    color: var(color --color-text-muted);
+    color: var(--color-text-muted);
     text-align: left;
 }
 
