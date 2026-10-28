@@ -1,7 +1,7 @@
 import InvoiceTable from "./invoiceTable.tsx";
 import { Invoice } from "./invoiceType.ts";
 import { useEffect, useState } from "react";
-
+import InvoiceForm from "./InvoiceForm.tsx";
 
 
 export default function InvoicePage() {
@@ -35,6 +35,7 @@ export default function InvoicePage() {
   return <>
     <h1>Faturas</h1>
     <InvoiceTable invoices={invoices} />
+    <InvoiceForm/>
   </>
 
 
