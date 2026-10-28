@@ -4,11 +4,13 @@
 GET {{host}}/api/health
 
 ### Consultar métricas do painel inicial
-
 GET {{host}} /api/dasboard 
 
-### Buscar todas as faturas
+### Buscar todos os Clientes
+GET {{host}}/api/customers/options
 
+
+### Buscar todas as faturas
 GET {{host}}/api/invoices
 
 ### Buscar fatura pelo identificador
