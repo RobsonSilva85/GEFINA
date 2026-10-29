@@ -55,8 +55,9 @@ router.post('/', async (request, response) => {
       status: 404,
       message: 'Fatura não encontrada. '
     }
-  })
-});
+  });
+  response.status(201).json(invoice)
+})
 
 router.put('/:id', async (request, response) => {
   const id = parseId(request.params.id);

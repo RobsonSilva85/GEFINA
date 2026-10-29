@@ -1,4 +1,4 @@
-import { use, useState } from "react";
+import { SubmitEvent, use, useState } from "react";
 import { Invoice, InvoiceInput, InvoiceStatus } from "./invoiceType.ts";
 import { CustomerOption } from "./customerType.ts";
 
@@ -10,14 +10,14 @@ interface InvoiceFormProps {
     onDelete: () => void;
     onCancel: () => void;
     onSubmit: (values: InvoiceInput) => void;
-    busy: boolean; 
+    busy: boolean;
 
 }
 
 
-export default function InvoiceForm(props: InvoiceFormProps ) {
-    const [customerId, setCustomerId] = useState(!props.invoice ? '': props.invoice.customer.id);
-    const [amount, setAmount] = useState(!props.invoice ? '' : props.invoice.amount / 100);
+export default function InvoiceForm(props: InvoiceFormProps) {
+    const [customerId, setCustomerId] = useState(!props.invoice ? '' : props.invoice.customer.id);
+    const [amount, setAmount] = useState(!props.invoice ? '' : (props.invoice.amount / 100).toFixed(2));
     const [status, setStatus] = useState<InvoiceStatus>(!props.invoice ? 'pending' : props.invoice.status);
     const [issueDate, setIssueDate] = useState(!props.invoice ? '' : props.invoice.issueDate);
     const [dueDate, setDueDate] = useState(!props.invoice ? '' : props.invoice.dueDate);
@@ -37,10 +37,23 @@ export default function InvoiceForm(props: InvoiceFormProps ) {
     }
 
 
-    return <form>
+    return <form onSubmit={handleSubmit}>
+        <h2>{!props.invoice ? 'Criar fatura' : 'Editar fatura'}</h2>
         <div>
             <label htmlFor="customer">Cliente</label>
-            <select name="" id="customer"></select>
+            <select
+                id="customer"
+                value={customerId}
+                onChange={(event) => setCustomerId(event.target.value)}
+                required
+            >
+                <option value="">Selecione um Cliente</option>
+                {props.customers.map((customer) => {
+                    return <option key={customer.id} value={customer.id}>
+                        {customer.name}  {customer.email}
+                    </option>
+                })}
+            </select>
         </div>
         <div>
             <label htmlFor="amount">Valor</label>
@@ -49,29 +62,64 @@ export default function InvoiceForm(props: InvoiceFormProps ) {
                 type="number"
                 step='0.01'
                 min-='0.01'
+                value={amount}
+                onChange={(event) => setAmount(event.target.value)}
                 required
             />
         </div>
         <div>
-            <label htmlFor="status"></label>
-            <select name="" id="status">
-                <option value="">Pendente</option>
-                <option value="">Paga</option>
+            <label htmlFor="status">Situação</label>
+            <select
+                id="status"
+                value={status}
+                onChange={(event) => setStatus(event.target.value as InvoiceStatus)}
+            >
+                <option value='pending'>Pendente</option>
+                <option value='paid'>Paga</option>
 
             </select>
         </div>
         <div>
             <label htmlFor="issueDate">Emissão</label>
-            <input 
+            <input
                 id='issueDate'
-                type="date"
+                type='date'
+                value={issueDate}
+                onChange={(event) => setIssueDate(event.target.value)}
                 required
             />
         </div>
         <div>
-            <button type="button">Excluir</button>
-            <button type="button">Cancelar</button>
-            <button type="submit">Salvar</button>
+            <label htmlFor="dueDate">Emissão</label>
+            <input
+                id='dueDate'
+                type='date'
+                value={dueDate}
+                onChange={(event) => setDueDate(event.target.value)}
+                required
+            />
+        </div>
+
+        {!props.error ? null : <p>{props.error}</p>}
+        
+        <div>
+            {!props.invoice ? null :
+            <button 
+            type="button"
+            onClick={props.onDelete}
+            disabled={props.busy}
+            >Excluir</button>
+            }
+            
+            <button 
+            type="button"
+            onClick={props.onCancel}
+            disabled={ props.busy}
+            >Cancelar</button>
+            <button 
+            type="submit"
+            disabled={ props.busy}
+            >{props.busy ? 'Salvando...' : 'Salvar'}</button>
         </div>
     </form>
 }
