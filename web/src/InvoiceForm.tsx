@@ -39,7 +39,7 @@ export default function InvoiceForm(props: InvoiceFormProps) {
 
     return <form onSubmit={handleSubmit}>
         <h2>{!props.invoice ? 'Criar fatura' : 'Editar fatura'}</h2>
-        <div>
+        <div className="fiel">
             <label htmlFor="customer">Cliente</label>
             <select
                 id="customer"
@@ -55,7 +55,7 @@ export default function InvoiceForm(props: InvoiceFormProps) {
                 })}
             </select>
         </div>
-        <div>
+        <div className="fiel">
             <label htmlFor="amount">Valor</label>
             <input
                 id='amount'
@@ -67,58 +67,63 @@ export default function InvoiceForm(props: InvoiceFormProps) {
                 required
             />
         </div>
-        <div>
-            <label htmlFor="status">Situação</label>
-            <select
-                id="status"
-                value={status}
-                onChange={(event) => setStatus(event.target.value as InvoiceStatus)}
-            >
-                <option value='pending'>Pendente</option>
-                <option value='paid'>Paga</option>
+        <div className="horizontal-fields">
+            <div className="fiel">
+                <label htmlFor="status">Situação</label>
+                <select
+                    id="status"
+                    value={status}
+                    onChange={(event) => setStatus(event.target.value as InvoiceStatus)}
+                >
+                    <option value='pending'>Pendente</option>
+                    <option value='paid'>Paga</option>
 
-            </select>
-        </div>
-        <div>
-            <label htmlFor="issueDate">Emissão</label>
-            <input
-                id='issueDate'
-                type='date'
-                value={issueDate}
-                onChange={(event) => setIssueDate(event.target.value)}
-                required
-            />
-        </div>
-        <div>
-            <label htmlFor="dueDate">Emissão</label>
-            <input
-                id='dueDate'
-                type='date'
-                value={dueDate}
-                onChange={(event) => setDueDate(event.target.value)}
-                required
-            />
+                </select>
+            </div>
+            <div className="fiel">
+                <label htmlFor="issueDate">Emissão</label>
+                <input
+                    id='issueDate'
+                    type='date'
+                    value={issueDate}
+                    onChange={(event) => setIssueDate(event.target.value)}
+                    required
+                />
+            </div>
+            <div className="fiel">
+                <label htmlFor="dueDate">Vencimento</label>
+                <input
+                    id='dueDate'
+                    type='date'
+                    value={dueDate}
+                    onChange={(event) => setDueDate(event.target.value)}
+                    required
+                />
+            </div>
+
         </div>
 
         {!props.error ? null : <p>{props.error}</p>}
-        
-        <div>
+
+        <div className="form-actions">
             {!props.invoice ? null :
-            <button 
-            type="button"
-            onClick={props.onDelete}
-            disabled={props.busy}
-            >Excluir</button>
+                <button
+                    type="button"
+                    onClick={props.onDelete}
+                    disabled={props.busy}
+                >Excluir</button>
             }
-            
-            <button 
-            type="button"
-            onClick={props.onCancel}
-            disabled={ props.busy}
+
+            <button
+                className="button-secondary"
+                type="button"
+                onClick={props.onCancel}
+                disabled={props.busy}
             >Cancelar</button>
-            <button 
-            type="submit"
-            disabled={ props.busy}
+            <button
+                className="button-primary"
+                type="submit"
+                disabled={props.busy}
             >{props.busy ? 'Salvando...' : 'Salvar'}</button>
         </div>
     </form>
