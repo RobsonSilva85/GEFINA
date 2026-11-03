@@ -8,16 +8,16 @@ export default function App() {
     return <BrowserRouter>
         <aside className="sidebar">
             <header className="brand">Gefina</header>
-            <nav className="menu">
-                <ul>
-                    <li>
-                        <NavLink to='/'>Painel Inicial</NavLink>
-                    </li>
-                    <li>
-                        <NavLink to='/faturas'>Faturas</NavLink>
-                    </li>
-                </ul>
-            </nav>
+                <nav className="menu">
+                    <ul>
+                        <li>
+                            <NavLink to='/'>Painel Inicial</NavLink>
+                        </li>
+                        <li>
+                            <NavLink to='/faturas'>Faturas</NavLink>
+                        </li>
+                    </ul>
+                </nav>
         </aside>
 
         <main className="content">
