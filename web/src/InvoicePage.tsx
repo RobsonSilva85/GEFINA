@@ -6,7 +6,8 @@ import InvoiceForm from "./InvoiceForm.tsx";
 import {
   getAllInvoices,
   createInvoice,
-  updateInvoice
+  updateInvoice,
+  deleteInvoice
 } from './invoiceApi.ts'
 import { CustomerOption } from "./customerType.ts";
 
@@ -20,6 +21,7 @@ export default function InvoicePage() {
   const [loading, setLoading] = useState<boolean>(true);
   const [dialogContent, setDialogContente] = useState(false)
   const [target, setTarget] = useState<Invoice | null>(null);
+   const [confirmDelete, setConfirmDelete] = useState(false);
 
   const dialogRef = useRef<HTMLDialogElement>(null);
 
@@ -85,6 +87,21 @@ export default function InvoicePage() {
     setBusy(false);
   }
 
+  async function confirm() {
+    if (!target) return;
+    setBusy(true);
+    setFormError(null);
+    try {
+      await deleteInvoice(target.id);
+      setConfirmDelete(false);
+      closeModal();
+    } catch (error) {
+      if (error instanceof Error) setFormError(error.message);
+    }
+    setBusy(false);
+
+  }
+
   if (loading) return <p>Carregando faturas.....</p>
 
   if (error) return <p>{error}</p>
@@ -122,14 +139,20 @@ export default function InvoicePage() {
     <dialog
       className="invoice-modal"
       ref={dialogRef}
-      onClose={() => setDialogContente(false)}
+      onClose={() => {
+        setConfirmDelete(false)
+        setDialogContente(false)}
+      }
     >
       <div id="open-modal-center">
         {dialogContent && <InvoiceForm
           invoice={target}
           customers={CustomerOption}
           error={formError}
-          onDelete={() => null}
+          confirmDelete={confirmDelete}
+          setConfirmDelete={setConfirmDelete}
+          confirm={confirm}
+          onDelete={() => setConfirmDelete(true)}
           onCancel={closeModal}
           onSubmit={submit}
           busy={busy}

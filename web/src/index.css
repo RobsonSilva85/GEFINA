@@ -171,7 +171,7 @@ td {
     padding: var(--space-3);
 }
 
-.td-button{
+.td-button {
     text-align: center;
 }
 
@@ -257,19 +257,6 @@ button:disabled {
     border-color: var(--color-overdue);
 }
 
-.invoice-modal {
-    position: fixed;
-    width: 720px;
-    padding: var(--space-6);
-    background-color: var(--color-surface);
-    color: var(--color-text);
-    border-radius: var(--radius-dialog);
-
-}
-
-.invoice-modal::backdrop {
-    background-color: var(--color-background-backdrop);
-}
 
 form {
     display: flex;
@@ -307,19 +294,52 @@ form {
     color: var(--color-overdue);
 }
 
+.confirm-for {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin-top: var(--space-6);
+}
+
+.confirm-for p, .confirm-for button {
+
+}
 #open-modal-center {
     position: fixed;
     top: 0;
     left: 0;
+    height: 100vh; */
     width: 100vw;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, 0.5); /* Fundo semi-transparente */
+    padding: var(--space-6);
+    background-color: rgba(0, 0, 0, 0.5);
+    /* Fundo semi-transparente */
 
     /* Centralização mágica com Flexbox */
     display: flex;
-    justify-content: center;/* Centraliza horizontalmente */
-    align-items: center;/* Centraliza verticalmente */
-    z-index: 999;/* Garante que fique acima de tudo */
+    justify-content: center;
+    /* Centraliza horizontalmente */
+    align-items: center;
+    /* Centraliza verticalmente */
+    z-index: 999;
+    /* Garante que fique acima de tudo */
+}
 
+.invoice-modal {
+    width: 720px; */
+    padding: var(--space-6);
+    background-color: var(--color-surface);
+    color: var(--color-text);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-dialog);
+    margin: auto;
 
+}
+
+.invoice-modal::backdrop {
+    background-color: var(--color-background-backdrop);
+}
+
+.invoice-modal:focus-visible{
+    outline: 2px solid var(colo --color-primary);
+    outline-offset: 2px;
 }
