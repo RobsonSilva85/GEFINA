@@ -171,6 +171,10 @@ td {
     padding: var(--space-3);
 }
 
+.td-button{
+    text-align: center;
+}
+
 .numeric {
     font-variant-numeric: tabular-nums;
 }
@@ -254,11 +258,13 @@ button:disabled {
 }
 
 .invoice-modal {
+    position: fixed;
     width: 720px;
     padding: var(--space-6);
     background-color: var(--color-surface);
     color: var(--color-text);
     border-radius: var(--radius-dialog);
+
 }
 
 .invoice-modal::backdrop {
@@ -299,4 +305,21 @@ form {
 .form-error {
     font-size: var(--text-sm);
     color: var(--color-overdue);
+}
+
+#open-modal-center {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5); /* Fundo semi-transparente */
+
+    /* Centralização mágica com Flexbox */
+    display: flex;
+    justify-content: center;/* Centraliza horizontalmente */
+    align-items: center;/* Centraliza verticalmente */
+    z-index: 999;/* Garante que fique acima de tudo */
+
+
 }

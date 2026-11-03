@@ -3,7 +3,11 @@ import { Invoice, InvoiceInput } from "./invoiceType.ts";
 import { useEffect, useState, useRef } from "react";
 import InvoiceForm from "./InvoiceForm.tsx";
 
-import { getAllInvoices, createInvoice } from './invoiceApi.ts'
+import {
+  getAllInvoices,
+  createInvoice,
+  updateInvoice
+} from './invoiceApi.ts'
 import { CustomerOption } from "./customerType.ts";
 
 
@@ -15,9 +19,9 @@ export default function InvoicePage() {
   const [formError, setFormError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [dialogContent, setDialogContente] = useState(false)
-  const dialogRef = useRef<HTMLDialogElement>(null);
-  dialogRef.current
+  const [target, setTarget] = useState<Invoice | null>(null);
 
+  const dialogRef = useRef<HTMLDialogElement>(null);
 
 
   useEffect(() => {
@@ -66,7 +70,12 @@ export default function InvoicePage() {
     setFormError(null);
 
     try {
-      await createInvoice(datas);
+      if (!target) {
+        await createInvoice(datas);
+
+      } else {
+        await updateInvoice(target.id, datas);
+      }
       closeModal();
       await refresh();
     } catch (error) {
@@ -81,9 +90,11 @@ export default function InvoicePage() {
   if (error) return <p>{error}</p>
 
 
-  function openModal() {
+  function openModal(invoice: Invoice | null) {
+    setTarget(invoice);
     setFormError(null);
     setDialogContente(true);
+
     dialogRef.current?.showModal();
   }
 
@@ -98,28 +109,32 @@ export default function InvoicePage() {
       <h1 >Faturas</h1>
       <button
         className="button-primary"
-        onClick={openModal}
+        onClick={() => openModal(null)}
       >Nova Fatura</button>
     </header>
 
     <div className="panel">
-      <InvoiceTable invoices={invoices} />
+      <InvoiceTable
+        edit={openModal}
+        invoices={invoices} />
     </div>
 
-    <dialog 
-    className="invoice-modal"
-    ref={dialogRef}
-    onClose={() => setDialogContente(false)}
+    <dialog
+      className="invoice-modal"
+      ref={dialogRef}
+      onClose={() => setDialogContente(false)}
     >
-      {dialogContent && <InvoiceForm
-        invoice={null}
-        customers={CustomerOption}
-        error={formError}
-        onDelete={() => null}
-        onCancel={closeModal}
-        onSubmit={submit}
-        busy={busy}
-      />}
+      <div id="open-modal-center">
+        {dialogContent && <InvoiceForm
+          invoice={target}
+          customers={CustomerOption}
+          error={formError}
+          onDelete={() => null}
+          onCancel={closeModal}
+          onSubmit={submit}
+          busy={busy}
+        />}
+      </div>
 
     </dialog>
   </>
