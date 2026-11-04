@@ -1,4 +1,5 @@
 import { response, Router } from 'express';
+import z from 'zod';
 import {
   findAllInvoices,
   findInvoicesById,
@@ -9,6 +10,7 @@ import {
 import { error } from 'node:console';
 import { request } from 'node:http';
 import handleError from './error.middleware.ts';
+import { invoiceSchema, toFieldErrors } from './invoice.schema.ts';
 
 
 const router = Router();
@@ -48,8 +50,18 @@ router.get('/:id', async (request, response) => {
 });
 
 router.post('/', async (request, response) => {
+  const result = invoiceSchema.safeParse(request.body);
 
-  const invoice = await insertInvoice(request.body);
+  if (!result.success){
+    return response.status(400).json({
+      error: {
+        status: 400,
+        message: 'Dados inválidos',
+        fields: toFieldErrors(result.error)
+      }
+    });
+  }
+  const invoice = await insertInvoice(result.data);
   if (!invoice) response.status(404).json({
     error: {
       status: 404,
@@ -57,7 +69,9 @@ router.post('/', async (request, response) => {
     }
   });
   response.status(201).json(invoice)
-})
+
+
+});
 
 router.put('/:id', async (request, response) => {
   const id = parseId(request.params.id);
