@@ -22,7 +22,7 @@ export default function InvoiceRow(props: InvoiceRowProps ) {
         <td className={situationClass(invoice.situation)}>{situationLabel(invoice.situation)}</td>
         <td className="td-button">
             <button 
-            className="button-secundary"
+            className="button-secondary"
             type='button'
             onClick={() => props.edit(invoice)}
             >

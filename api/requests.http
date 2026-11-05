@@ -27,13 +27,17 @@ POST {{host}}/api/invoices
 Content-Type: application/json
 
 {
-    "customerId": 1,
-    "amount": 125037,
+    "customerId": 10,
+    "amount": 157850,
     "status": "pending",
     "issueDate": "2026-10-01",
-    "dueDate": "2026-10-31"
+    "dueDate": "2026-11-28"
 
 }
+### Criar fatura sem corpo
+POST {{host}}/api/invoices
+Content-Type: application/json
+
 
 ### Atualizar fatura
 
