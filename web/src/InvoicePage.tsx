@@ -1,5 +1,9 @@
 import InvoiceTable from "./invoiceTable.tsx";
-import { Invoice, InvoiceInput } from "./invoiceType.ts";
+import { 
+  Invoice, 
+  InvoiceInput, 
+  InvoiceFieldErros 
+} from "./invoiceType.ts";
 import { useEffect, useState, useRef } from "react";
 import InvoiceForm from "./InvoiceForm.tsx";
 
@@ -16,12 +20,13 @@ export default function InvoicePage() {
   const [invoices, setInvoices] = useState<Invoice[]>([]);
   const [CustomerOption, setCustomersOptions] = useState<CustomerOption[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [fieldErrors, setFieldErros] = useState<InvoiceFieldErros>({});
   const [busy, setBusy] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [dialogContent, setDialogContente] = useState(false)
   const [target, setTarget] = useState<Invoice | null>(null);
-   const [confirmDelete, setConfirmDelete] = useState(false);
+  const [confirmDelete, setConfirmDelete] = useState(false);
 
   const dialogRef = useRef<HTMLDialogElement>(null);
 
@@ -73,7 +78,8 @@ export default function InvoicePage() {
 
     try {
       if (!target) {
-        await createInvoice(datas);
+        const failure = await createInvoice(datas);
+        if ( failure) return setFieldErros(failure && failure.fields);
 
       } else {
         await updateInvoice(target.id, datas);
@@ -82,9 +88,11 @@ export default function InvoicePage() {
       await refresh();
     } catch (error) {
       if (error instanceof Error) setFormError(error.message);
+    } finally {
+
+      setBusy(false);
     }
 
-    setBusy(false);
   }
 
   async function confirm() {
@@ -140,15 +148,17 @@ export default function InvoicePage() {
       className="invoice-modal"
       ref={dialogRef}
       onClose={() => {
-        setConfirmDelete(false)
-        setDialogContente(false)}
-      }
+        setConfirmDelete(false);
+        setDialogContente(false);
+        setFieldErros({});
+      }}
     >
       <div id="open-modal-center">
         {dialogContent && <InvoiceForm
           invoice={target}
           customers={CustomerOption}
           error={formError}
+          fieldErrors={fieldErrors}
           confirmDelete={confirmDelete}
           setConfirmDelete={setConfirmDelete}
           confirm={confirm}

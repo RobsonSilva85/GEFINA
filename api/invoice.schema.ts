@@ -1,4 +1,4 @@
-import { z, type ZodError } from "zod";
+import { z, type ZodError, preprocess } from "zod";
 
 // customerId, amount, status, issueDate, duaDate
 
@@ -17,6 +17,9 @@ export const invoiceSchema = z
         {
             customerId: z
                 .number('O cliente é obrigatório.')
+                // .refine((id) => !Number.isNaN(id), {
+                //     message: 'O cliente é obrigatório. '
+                // })
                 .int('O identificador do cliente deve ser um número inteiro.')
                 .positive('O identificador do cliente deve ser maior que zero.'),
             amount: z
@@ -46,12 +49,12 @@ interface InvoiceFieldErrors {
     dueDate?: string;
 }
 
-function firstError(messages: string[]  | undefined): string | undefined {
+function firstError(messages: string[] | undefined): string | undefined {
     return !messages ? undefined : messages[0];
 }
 
-export function toFieldErrors(error: ZodError<InvoiceInput>): InvoiceFieldErrors{
-    const {fieldErrors} = z.flattenError(error);
+export function toFieldErrors(error: ZodError<InvoiceInput>): InvoiceFieldErrors {
+    const { fieldErrors } = z.flattenError(error);
     return {
         customerId: firstError(fieldErrors.customerId),
         amount: firstError(fieldErrors.amount),

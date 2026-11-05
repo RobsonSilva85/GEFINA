@@ -1,6 +1,6 @@
 
 export interface CustomerOption {
-    id: number;
+    id: string;
     name: string;
     email: string;
 }
