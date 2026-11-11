@@ -131,7 +131,7 @@ describe(
         );
 
         it(
-            'recusa busca de fatura com identificador inválido',
+            'recusa busca de fatura com identificador inválidoo',
             async () => {
                 const response = await request.get('/api/invoices/abc');
 
