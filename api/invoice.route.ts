@@ -2,14 +2,11 @@ import { response, Router } from 'express';
 import z from 'zod';
 import {
   findAllInvoices,
-  findInvoicesById,
+  findInvoiceById,
   insertInvoice,
   modifyInvoice,
   removeInvoice
 } from './invoice.service.ts';
-import { error } from 'node:console';
-import { request } from 'node:http';
-import handleError from './error.middleware.ts';
 import { invoiceSchema, toFieldErrors } from './invoice.schema.ts';
 
 
@@ -38,7 +35,7 @@ router.get('/:id', async (request, response) => {
     });
     return;
   }
-  const invoice = await findInvoicesById(id);
+  const invoice = await findInvoiceById(id);
 
   if (!invoice) response.status(404).json({
     error: {
@@ -86,6 +83,10 @@ router.put('/:id', async (request, response) => {
     });
     return;
   }
+
+  const result = await modifyInvoice(id, request.body);
+
+  response.status(200).json(result);  
 });
 
 router.delete('/:id', async (request, response) => {
