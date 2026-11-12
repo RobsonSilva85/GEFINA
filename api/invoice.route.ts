@@ -1,14 +1,12 @@
-import { response, Router } from 'express';
-import z from 'zod';
+import { Router } from 'express';
+import { invoiceSchema, toFieldErrors } from './invoice.schema.ts';
 import {
   findAllInvoices,
   findInvoiceById,
   insertInvoice,
   modifyInvoice,
-  removeInvoice
+  removeInvoice,
 } from './invoice.service.ts';
-import { invoiceSchema, toFieldErrors } from './invoice.schema.ts';
-
 
 const router = Router();
 
@@ -30,21 +28,22 @@ router.get('/:id', async (request, response) => {
     response.status(400).json({
       error: {
         status: 400,
-        message: 'Identificador inválido. '
-      }
+        message: 'Identificador inválido. ',
+      },
     });
     return;
   }
   const invoice = await findInvoiceById(id);
 
-  if (!invoice) response.status(404).json({
-    error: {
-      status: 404,
-      message: 'Fatura não encontrada. '
-    }
-  })
+  if (!invoice)
+    response.status(404).json({
+      error: {
+        status: 404,
+        message: 'Fatura não encontrada. ',
+      },
+    });
 
-  response.status(200).json(invoice)
+  response.status(200).json(invoice);
 });
 
 router.post('/', async (request, response) => {
@@ -55,21 +54,20 @@ router.post('/', async (request, response) => {
       error: {
         status: 400,
         message: 'Dados inválidos',
-        fields: toFieldErrors(result.error)
-      }
+        fields: toFieldErrors(result.error),
+      },
     });
   }
 
   const invoice = await insertInvoice(result.data);
-  if (!invoice) response.status(404).json({
-    error: {
-      status: 404,
-      message: 'Fatura não encontrada. '
-    }
-  });
-  response.status(201).json(invoice)
-
-
+  if (!invoice)
+    response.status(404).json({
+      error: {
+        status: 404,
+        message: 'Fatura não encontrada. ',
+      },
+    });
+  response.status(201).json(invoice);
 });
 
 router.put('/:id', async (request, response) => {
@@ -78,15 +76,15 @@ router.put('/:id', async (request, response) => {
     response.status(400).json({
       error: {
         status: 400,
-        message: 'Identificador inválido. '
-      }
+        message: 'Identificador inválido. ',
+      },
     });
     return;
   }
 
   const result = await modifyInvoice(id, request.body);
 
-  response.status(200).json(result);  
+  response.status(200).json(result);
 });
 
 router.delete('/:id', async (request, response) => {
@@ -96,8 +94,8 @@ router.delete('/:id', async (request, response) => {
     response.status(400).json({
       error: {
         status: 400,
-        message: 'Identificador inválido. '
-      }
+        message: 'Identificador inválido. ',
+      },
     });
     return;
   }
@@ -106,11 +104,11 @@ router.delete('/:id', async (request, response) => {
     response.status(404).json({
       error: {
         status: 404,
-        message: 'Fatura não encontrada'
-      }
-    })
+        message: 'Fatura não encontrada',
+      },
+    });
   }
-  response.status(204).end()
+  response.status(204).end();
 });
 
 export default router;
