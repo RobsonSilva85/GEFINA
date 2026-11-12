@@ -1,20 +1,14 @@
-import InvoiceTable from "./invoiceTable.tsx";
-import { 
-  Invoice, 
-  InvoiceInput, 
-  InvoiceFieldErros 
-} from "./invoiceType.ts";
-import { useEffect, useState, useRef } from "react";
-import InvoiceForm from "./InvoiceForm.tsx";
-
+import { useEffect, useRef, useState } from 'react';
+import type { CustomerOption } from './customerType.ts';
+import InvoiceForm from './InvoiceForm.tsx';
 import {
-  getAllInvoices,
   createInvoice,
+  deleteInvoice,
+  getAllInvoices,
   updateInvoice,
-  deleteInvoice
-} from './invoiceApi.ts'
-import { CustomerOption } from "./customerType.ts";
-
+} from './invoiceApi.ts';
+import InvoiceTable from './invoiceTable.tsx';
+import type { Invoice, InvoiceFieldErros, InvoiceInput } from './invoiceType.ts';
 
 export default function InvoicePage() {
   const [invoices, setInvoices] = useState<Invoice[]>([]);
@@ -24,12 +18,11 @@ export default function InvoicePage() {
   const [busy, setBusy] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
-  const [dialogContent, setDialogContente] = useState(false)
+  const [dialogContent, setDialogContente] = useState(false);
   const [target, setTarget] = useState<Invoice | null>(null);
   const [confirmDelete, setConfirmDelete] = useState(false);
 
   const dialogRef = useRef<HTMLDialogElement>(null);
-
 
   useEffect(() => {
     async function getInvoices() {
@@ -40,7 +33,7 @@ export default function InvoicePage() {
         if (error instanceof Error) setError(error.message);
       }
 
-      setLoading(false)
+      setLoading(false);
     }
     getInvoices();
   }, []);
@@ -56,20 +49,17 @@ export default function InvoicePage() {
         setCustomersOptions(datas);
       } catch (error) {
         if (error instanceof Error) setError(error.message);
-
       }
-
     }
     getCustomersOptions();
   }, []);
 
   async function refresh() {
     try {
-      const datas = await getAllInvoices();
+      const _datas = await getAllInvoices();
     } catch (error) {
       if (error instanceof Error) throw error;
     }
-
   }
 
   async function submit(datas: InvoiceInput) {
@@ -79,8 +69,7 @@ export default function InvoicePage() {
     try {
       if (!target) {
         const failure = await createInvoice(datas);
-        if ( failure) return setFieldErros(failure && failure.fields);
-
+        if (failure) return setFieldErros(failure?.fields);
       } else {
         await updateInvoice(target.id, datas);
       }
@@ -89,10 +78,8 @@ export default function InvoicePage() {
     } catch (error) {
       if (error instanceof Error) setFormError(error.message);
     } finally {
-
       setBusy(false);
     }
-
   }
 
   async function confirm() {
@@ -107,13 +94,11 @@ export default function InvoicePage() {
       if (error instanceof Error) setFormError(error.message);
     }
     setBusy(false);
-
   }
 
-  if (loading) return <p>Carregando faturas.....</p>
+  if (loading) return <p>Carregando faturas.....</p>;
 
-  if (error) return <p>{error}</p>
-
+  if (error) return <p>{error}</p>;
 
   function openModal(invoice: Invoice | null) {
     setTarget(invoice);
@@ -129,48 +114,46 @@ export default function InvoicePage() {
     dialogRef.current?.close();
   }
 
-  return <>
-    <header className="page-header">
-      <h1 >Faturas</h1>
-      <button
-        className="button-primary"
-        onClick={() => openModal(null)}
-      >Nova Fatura</button>
-    </header>
+  return (
+    <>
+      <header className="page-header">
+        <h1>Faturas</h1>
+        <button className="button-primary" type="button" onClick={() => openModal(null)}>
+          Nova Fatura
+        </button>
+      </header>
 
-    <div className="panel">
-      <InvoiceTable
-        edit={openModal}
-        invoices={invoices} />
-    </div>
-
-    <dialog
-      className="invoice-modal"
-      ref={dialogRef}
-      onClose={() => {
-        setConfirmDelete(false);
-        setDialogContente(false);
-        setFieldErros({});
-      }}
-    >
-      <div id="open-modal-center">
-        {dialogContent && <InvoiceForm
-          invoice={target}
-          customers={CustomerOption}
-          error={formError}
-          fieldErrors={fieldErrors}
-          confirmDelete={confirmDelete}
-          setConfirmDelete={setConfirmDelete}
-          confirm={confirm}
-          onDelete={() => setConfirmDelete(true)}
-          onCancel={closeModal}
-          onSubmit={submit}
-          busy={busy}
-        />}
+      <div className="panel">
+        <InvoiceTable edit={openModal} invoices={invoices} />
       </div>
 
-    </dialog>
-  </>
-
-
+      <dialog
+        className="invoice-modal"
+        ref={dialogRef}
+        onClose={() => {
+          setConfirmDelete(false);
+          setDialogContente(false);
+          setFieldErros({});
+        }}
+      >
+        <div id="open-modal-center">
+          {dialogContent && (
+            <InvoiceForm
+              invoice={target}
+              customers={CustomerOption}
+              error={formError}
+              fieldErrors={fieldErrors}
+              confirmDelete={confirmDelete}
+              setConfirmDelete={setConfirmDelete}
+              confirm={confirm}
+              onDelete={() => setConfirmDelete(true)}
+              onCancel={closeModal}
+              onSubmit={submit}
+              busy={busy}
+            />
+          )}
+        </div>
+      </dialog>
+    </>
+  );
 }

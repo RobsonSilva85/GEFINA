@@ -1,15 +1,14 @@
-import type { Invoice } from "./invoiceType";
+import type { Invoice } from './invoiceType';
 
 export interface Dashboardtotals {
-    paid: number;
-    pending: number;
-    invoiceCount: number;
-    customerCount: number;
-
+  paid: number;
+  pending: number;
+  invoiceCount: number;
+  customerCount: number;
 }
 
 export interface Dashboard {
-    totals: Dashboardtotals;
-    recentInvoices: Invoice[];
-    overdueInvoices: Invoice[];
+  totals: Dashboardtotals;
+  recentInvoices: Invoice[];
+  overdueInvoices: Invoice[];
 }

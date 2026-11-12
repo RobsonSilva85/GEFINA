@@ -28,7 +28,7 @@
   --text-lg: 1.25rem;
   --text-xl: 1.5rem;
 
-  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-sans: "Inter", system-ui, sans-serif;
 
   --sidebar-width: 240px;
 }
@@ -111,7 +111,7 @@ a {
 
 .menu a:focus-visible {
   outline: 2px solid var(--color-primary);
-  outline-offset: 2px; 
+  outline-offset: 2px;
 }
 
 .content {
@@ -217,7 +217,7 @@ input:focus-visible,
 select:focus-visible,
 button:focus-visible {
   outline: 2px solid var(--color-primary);
-  outline-offset: 2px; 
+  outline-offset: 2px;
 }
 
 input,
@@ -250,14 +250,11 @@ button:disabled {
   border-color: var(--color-border);
 }
 
-
-
 .button-danger {
   background-color: transparent;
   color: var(--color-overdue);
   border-color: var(--color-overdue);
 }
-
 
 .invoice-modal {
   width: 720px;
@@ -272,7 +269,7 @@ button:disabled {
 .invoice-modal::backdrop {
   background-color: var(--color-background-backdrop);
 }
-.invoice-modal:focus-visible{
+.invoice-modal:focus-visible {
   outline: 2px solid var(--color-primary);
   outline-offset: 2px;
 }
@@ -282,7 +279,6 @@ form {
   flex-direction: column;
   gap: var(--space-4);
 }
-
 
 .field {
   display: flex;
@@ -319,6 +315,7 @@ form {
   align-items: center;
   gap: var(--space-2);
 }
-.confirm-form p, confirm-form button {
+.confirm-form p,
+confirm-form button {
   flex-grow: 1;
 }
