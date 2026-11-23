@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import type { Dashboard } from './dashboardType';
-import InvoiceSummuaryTable from './InvoiceSummaryTable';
-import SummaryCardProps from './SummaryCard';
-import { formatCurrency } from './utils';
+import type { Dashboard } from '../types/dashboardType.ts';
+import InvoiceSummuaryTable from './InvoiceSummaryTable.tsx';
+import SummaryCardProps from './SummaryCard.tsx';
+import { formatCurrency } from '../utils';
 
 export default function DashboardPage() {
   const [dashboard, setDashboard] = useState<null | Dashboard>(null);
