@@ -8,9 +8,9 @@ interface InvoiceTableProps {
 
 export default function InvoiceTable(props: InvoiceTableProps) {
   const theaderStyle = 'text-sm font-medium text-text-muted border-b border-border p-3';
- 
+
   return (
-    <table className='w-full border-collapse'>
+    <table className="w-full border-collapse">
       <thead>
         <tr>
           <th className={`${theaderStyle} text-left`}>Cliente</th>

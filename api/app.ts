@@ -23,14 +23,14 @@ app.get('/api/health', async (_request, response) => {
 
     response.status(200).json({
       server: 'Server is running.',
-      database: 'Database available',
+      database: 'Database available'
     });
   } catch (error) {
     console.error(error);
 
     response.status(500).json({
       server: 'Server is running.',
-      database: 'Database unavailable',
+      database: 'Database unavailable'
     });
   }
 });

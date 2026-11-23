@@ -12,16 +12,23 @@ export default function InvoiceRow(props: InvoiceRowProps) {
   return (
     <tr>
       <td className={tdStyle}>{props.invoice.customer.name}</td>
-      <td className={`${tdStyle} tabular-nums`}> {formatCurrency(props.invoice.amount)}</td>
-      <td className={`${tdStyle} text-center tabular-nums`}>{formatDate(props.invoice.issueDate)}</td>
-      <td className={`${tdStyle} text-center tabular-nums`}>{formatDate(props.invoice.dueDate)}</td>
+      <td className={`${tdStyle} tabular-nums`}>
+        {' '}
+        {formatCurrency(props.invoice.amount)}
+      </td>
+      <td className={`${tdStyle} text-center tabular-nums`}>
+        {formatDate(props.invoice.issueDate)}
+      </td>
+      <td className={`${tdStyle} text-center tabular-nums`}>
+        {formatDate(props.invoice.dueDate)}
+      </td>
       <td className={`${tdStyle} text-center ${situationClass(props.invoice.situation)}`}>
         {situationLabel(props.invoice.situation)}
       </td>
       <td className={`${tdStyle} text-center px-0`}>
         <button
-          className='border border-border px-4 py-2 rounded-control cursor-pointer hover:bg-surface-raised 
-          focus-visible:outline-2 focus-visible:outline-primary'
+          className="border border-border px-4 py-2 rounded-control cursor-pointer hover:bg-surface-raised 
+          focus-visible:outline-2 focus-visible:outline-primary"
           type="button"
           onClick={() => props.edit(props.invoice)}
         >

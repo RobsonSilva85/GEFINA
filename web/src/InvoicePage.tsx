@@ -5,7 +5,7 @@ import {
   createInvoice,
   deleteInvoice,
   getAllInvoices,
-  updateInvoice,
+  updateInvoice
 } from './invoiceApi.ts';
 import InvoiceTable from './invoiceTable.tsx';
 import type { Invoice, InvoiceFieldErros, InvoiceInput } from './invoiceType.ts';
@@ -96,9 +96,9 @@ export default function InvoicePage() {
     setBusy(false);
   }
 
-  if (loading) return <p className='text-sm text-text-muted'>Carregando.....</p>;
+  if (loading) return <p className="text-sm text-text-muted">Carregando.....</p>;
 
-  if (error) return <p className='text-overdue'>{error}</p>;
+  if (error) return <p className="text-overdue">{error}</p>;
 
   function openModal(invoice: Invoice | null) {
     setTarget(invoice);
@@ -116,22 +116,25 @@ export default function InvoicePage() {
 
   return (
     <>
-      <header className='flex justify-between items-center mb-6'>
-        <h1 className='text-xl font-semibold'>Faturas</h1>
-        <button className='bg-primary px-4 py-2 border border-border rounded-control cursor-pointer focus-visible:outline-2 focus-visible:outline-text' 
-        type='button' onClick={() => openModal(null)}>
+      <header className="flex justify-between items-center mb-6">
+        <h1 className="text-xl font-semibold">Faturas</h1>
+        <button
+          className="bg-primary px-4 py-2 border border-border rounded-control cursor-pointer focus-visible:outline-2 focus-visible:outline-text"
+          type="button"
+          onClick={() => openModal(null)}
+        >
           Nova Fatura
         </button>
       </header>
 
-      <div className='p-4 bg-surface border border-border rounded-surface'>
+      <div className="p-4 bg-surface border border-border rounded-surface">
         <InvoiceTable edit={openModal} invoices={invoices} />
       </div>
 
       <dialog
-        className='w-xl m-auto bg-surface backdrop:bg-background-backdrop 
+        className="w-xl m-auto bg-surface backdrop:bg-background-backdrop 
         border border-border text-text p-6 rounded-dialog focus-visible:outline-2 
-        focus-visible:outline-primary'
+        focus-visible:outline-primary"
         ref={dialogRef}
         onClose={() => {
           setConfirmDelete(false);
@@ -139,7 +142,7 @@ export default function InvoicePage() {
           setFieldErros({});
         }}
       >
-        <div id='open-modal-center'>
+        <div id="open-modal-center">
           {dialogContent && (
             <InvoiceForm
               invoice={target}

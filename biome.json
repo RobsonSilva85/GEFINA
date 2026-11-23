@@ -19,7 +19,7 @@
       "tailwindDirectives": true
     },
     "formatter": {
-      "quoteStyle":"single"
+      "quoteStyle": "single"
     }
   },
 

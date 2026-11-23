@@ -6,8 +6,8 @@ const handleError: ErrorRequestHandler = (error, _request, response, _next) => {
   response.status(500).json({
     error: {
       status: 500,
-      message: 'Não foi possível concluir operação. ',
-    },
+      message: 'Não foi possível concluir operação. '
+    }
   });
 };
 
