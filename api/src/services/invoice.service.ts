@@ -2,8 +2,8 @@ import type {
   Customer as CustomerRecord,
   Invoice as InvoiceRecord
 } from '@prisma/client';
-import type { InvoiceInput, InvoiceStatus } from './invoice.schema.ts';
-import prisma from './prisma.ts';
+import type { InvoiceInput, InvoiceStatus } from '../schemas/invoice.schema.ts';
+import prisma from '../prisma.ts';
 
 type InvoiceSituation = 'paid' | 'pending' | 'overdue';
 
