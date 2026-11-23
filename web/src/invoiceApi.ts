@@ -15,19 +15,19 @@ export async function getInvoiceById(id: number): Promise<Invoice> {
 }
 
 export async function createInvoice(
-  datas: InvoiceInput,
+  datas: InvoiceInput
 ): Promise<undefined | ApiFailure> {
   const response = await fetch(`/api/invoices`, {
     method: 'POST',
     headers: header,
-    body: JSON.stringify(datas),
+    body: JSON.stringify(datas)
   });
   if (response.status === 400) {
     const body = await response.json();
 
     return {
       message: body.error.message,
-      fields: body.error.fields,
+      fields: body.error.fields
     };
   }
 
@@ -38,7 +38,7 @@ export async function updateInvoice(id: number, datas: InvoiceInput): Promise<vo
   const response = await fetch(`/api/invoices/${id}`, {
     method: 'PUT',
     headers: header,
-    body: JSON.stringify(datas),
+    body: JSON.stringify(datas)
   });
   if (!response.ok) throw new Error('Falha ao editar fatura. ');
 }

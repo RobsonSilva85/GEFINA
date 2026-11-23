@@ -7,11 +7,11 @@ import prisma from './prisma.ts';
 
 const user = {
   id: 0,
-  email: 'usuarios@teste.com.br',
+  email: 'usuarios@teste.com.br'
 };
 const customer = {
   id: 0,
-  email: 'clientes@teste.com.br',
+  email: 'clientes@teste.com.br'
 };
 const invoice = { id: 0 };
 
@@ -21,8 +21,8 @@ async function populate(): Promise<void> {
       data: {
         name: 'Usuário de Teste',
         email: user.email,
-        passwordHash: 'placeholder',
-      },
+        passwordHash: 'placeholder'
+      }
     })
     .then((data) => (user.id = data.id));
 
@@ -31,8 +31,8 @@ async function populate(): Promise<void> {
       data: {
         userId: user.id,
         name: 'Cliente de Teste',
-        email: customer.email,
-      },
+        email: customer.email
+      }
     })
     .then((data) => (customer.id = data.id));
 
@@ -43,8 +43,8 @@ async function populate(): Promise<void> {
         amount: 125037,
         status: 'pending',
         issueDate: new Date('2026-10-01'),
-        dueDate: new Date('2026-10-31'),
-      },
+        dueDate: new Date('2026-10-31')
+      }
     })
     .then((data) => (invoice.id = data.id));
 }
@@ -81,7 +81,7 @@ describe('rotas de fatura', () => {
       amount: 55555,
       status: 'pending',
       issueDate: '2026-10-01',
-      dueDate: '2026-10-31',
+      dueDate: '2026-10-31'
     });
 
     expect(response.status).toBe(201);
@@ -94,7 +94,7 @@ describe('rotas de fatura', () => {
       amount: 125037,
       status: 'paid',
       issueDate: '2026-10-01',
-      dueDate: '2026-10-31',
+      dueDate: '2026-10-31'
     });
 
     expect(response.status).toBe(200);
@@ -121,7 +121,7 @@ describe('rotas de fatura', () => {
       amount: 0,
       status: 'pending',
       issueDate: '2026-10-01',
-      dueDate: '2026-10-31',
+      dueDate: '2026-10-31'
     });
 
     expect(response.status).toBe(400);

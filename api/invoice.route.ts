@@ -5,7 +5,7 @@ import {
   findInvoiceById,
   insertInvoice,
   modifyInvoice,
-  removeInvoice,
+  removeInvoice
 } from './invoice.service.ts';
 
 const router = Router();
@@ -28,8 +28,8 @@ router.get('/:id', async (request, response) => {
     response.status(400).json({
       error: {
         status: 400,
-        message: 'Identificador inválido. ',
-      },
+        message: 'Identificador inválido. '
+      }
     });
     return;
   }
@@ -39,8 +39,8 @@ router.get('/:id', async (request, response) => {
     response.status(404).json({
       error: {
         status: 404,
-        message: 'Fatura não encontrada. ',
-      },
+        message: 'Fatura não encontrada. '
+      }
     });
 
   response.status(200).json(invoice);
@@ -54,8 +54,8 @@ router.post('/', async (request, response) => {
       error: {
         status: 400,
         message: 'Dados inválidos',
-        fields: toFieldErrors(result.error),
-      },
+        fields: toFieldErrors(result.error)
+      }
     });
   }
 
@@ -64,8 +64,8 @@ router.post('/', async (request, response) => {
     response.status(404).json({
       error: {
         status: 404,
-        message: 'Fatura não encontrada. ',
-      },
+        message: 'Fatura não encontrada. '
+      }
     });
   response.status(201).json(invoice);
 });
@@ -76,8 +76,8 @@ router.put('/:id', async (request, response) => {
     response.status(400).json({
       error: {
         status: 400,
-        message: 'Identificador inválido. ',
-      },
+        message: 'Identificador inválido. '
+      }
     });
     return;
   }
@@ -94,8 +94,8 @@ router.delete('/:id', async (request, response) => {
     response.status(400).json({
       error: {
         status: 400,
-        message: 'Identificador inválido. ',
-      },
+        message: 'Identificador inválido. '
+      }
     });
     return;
   }
@@ -104,8 +104,8 @@ router.delete('/:id', async (request, response) => {
     response.status(404).json({
       error: {
         status: 404,
-        message: 'Fatura não encontrada',
-      },
+        message: 'Fatura não encontrada'
+      }
     });
   }
   response.status(204).end();
